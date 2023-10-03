@@ -4,6 +4,8 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { ErrorComponent } from './error/error.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -15,10 +17,13 @@ import { ErrorComponent } from './error/error.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
   ]
 })
 export class SharedModule { }

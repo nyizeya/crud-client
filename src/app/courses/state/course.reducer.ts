@@ -25,7 +25,8 @@ const _courseReducer = createReducer(
     on(courseActions.getAllCourseFail, (state: CourseState, action: {message: string | null}) => {
         return {
             ...state,
-            error: action.message
+            error: action.message,
+            isLoading: false
         }
     }),
     on(courseActions.getSingleCourseStart, (state: CourseState, action: {id: number}) => {
@@ -44,12 +45,24 @@ const _courseReducer = createReducer(
         }
 
     }),
-    on(courseActions.getCoursesByInstructor, (state: CourseState, action: {id: number}) => {
-        let courses = state.data.filter(c => c.instructorId === action.id);
-    
+    on(courseActions.getCoursesByInstructorStart, (state: CourseState, action: {id: number}) => {
         return {
             ...state,
-            data: courses
+            isLoading: true
+        }
+    }),
+    on(courseActions.getCoursesByInstructorSuccess, (state: CourseState, action: Response<Course>) => {
+        return {
+            ...state,
+            data: action.data,
+            isLoading: false
+        }
+    }),
+    on(courseActions.getCoursesByInstructorFail, (state: CourseState, action: {message: string}) => {
+        return {
+            ...state,
+            error: action.message,
+            isLoading: false
         }
     })
 )

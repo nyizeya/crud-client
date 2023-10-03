@@ -7,7 +7,11 @@ import { InstructorUpdateRequest } from "src/app/models/reqeust_dto/instructor/i
 export const getAllInstructorStart = createAction('[Instructor State] GET ALL INSTRUCTOR START');
 export const getAllInstructorSuccess = createAction('[Instructor State] GET ALL INSTRUCTOR SUCCESS', props<Response<Instructor>>());
 export const getAllInstructorFail = createAction('[Instructor State] GET ALL INSTRUCTOR FAIL', props<{message: string}>());
-export const getInstructorByIdAction = createAction('[Instructor State] GET INSTRUCTOR BY ID', props<{id: number}>());
+
+export const getInstructorByIdStart = createAction('[Instructor State] GET INSTRUCTOR BY ID START', props<{id: number}>());
+export const getInstructorByIdSuccess = createAction('[Instructor State] GET INSTRUCTOR BY ID SUCCESS', props<Response<Instructor>>());
+export const getInstructorByIdFail = createAction('[Instructor State] GET INSTRUCTOR BY ID', props<{message: string}>());
+
 
 export const addInstructorAction = createAction('[Instructor State] CREATE INSTRUCTOR', props<{instructor: InstructorRegistrationRequest}>());
 export const getInstructorByEmailAction = createAction('[Instructor State] GET INSTRUCTOR BY EMAIL', props<{email: string}>());

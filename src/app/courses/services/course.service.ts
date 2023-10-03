@@ -27,4 +27,12 @@ export class CourseService {
     return this._http.get<Response<Course>>(this._baseUrl, {params: params})
   }
 
+  getCoursesByInstructor(id: number): Observable<Response<Course>> {
+    console.log('getting courses by instructor ', id);
+    
+    console.log(`${this._baseUrl}/instructor/${id}`);
+    
+    return this._http.get<Response<Course>>(`${this._baseUrl}/instructor/${id}`);
+  }
+
 }

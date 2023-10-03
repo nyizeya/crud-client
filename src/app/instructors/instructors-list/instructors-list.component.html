@@ -1,45 +1,49 @@
 <div>
     <h3>Instructors</h3>
 
-    <div *ngIf="(isLoading$ | async); else dataTable;" class="spinner-border text-primary" role="status">
+    <div *ngIf="(errorMessage$ | async) as errorMessage">
+        <div class="alert alert-danger">{{ errorMessage }}</div>
+    </div>
+
+    <div *ngIf="(isLoading$ | async)" class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 
-    <!-- <div>
-        There is no data
-    </div> -->
-
-    <ng-template #dataTable>
-        <table datatable class="table table-striped row-border hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Instructor Name</th>
-                    <th>Instructor Email</th>
-                    <th>Instructor Phone</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let instructor of (instructors$ | async)">
-                    <td>{{ instructor.id }}</td>
-                    <td>
-                        <a [routerLink]="['/instructors', instructor.id]" class="text-decoration-none">
-                            {{ instructor.name }}
-                        </a>
-                    </td>
-                    <td>{{ instructor.email }}</td>
-                    <td>{{ instructor.phone }}</td>
-                    <td class="d-flex gap-3">
-                        <a href="#" class="btn btn-outline-primary">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-danger">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </ng-template>
+    <div *ngIf="!(isLoading$ | async) && !(errorMessage$ | async) ">
+        <div *ngIf="(instructors$ | async) as instructors;">
+            <div *ngIf="instructors.length === 0" class="alert alert-info">There is no data.</div>
+            <table datatable *ngIf="instructors.length > 0" class="table table-striped row-border hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Instructor Name</th>
+                        <th>Instructor Email</th>
+                        <th>Instructor Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let instructor of instructors">
+                        <td>{{ instructor.id }}</td>
+                        <td>
+                            <a [routerLink]="['/instructors', instructor.id]" class="text-decoration-none">
+                                {{ instructor.name }}
+                            </a>
+                        </td>
+                        <td>{{ instructor.email }}</td>
+                        <td>{{ instructor.phone }}</td>
+                        <td class="d-flex gap-3">
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
 </div>

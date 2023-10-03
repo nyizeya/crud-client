@@ -1,1 +1,23 @@
-<p>login works!</p>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input formControlName="username" type="text" placeholder="Username" class="form-control">
+                <div *ngIf="!loginForm.get('username')?.valid">
+                    <span class="text-danger">{{ getUsernameErrorMessage(loginForm.controls['username']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input formControlName="password" type="password" placeholder="Password" class="form-control">
+                <div *ngIf="!loginForm.get('password')?.valid">
+                    <span class="text-danger">{{ getPasswordErrorMessage(loginForm.controls['password']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-lg btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

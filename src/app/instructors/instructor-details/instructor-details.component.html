@@ -1,13 +1,70 @@
 <div class="row">
-    <div class="col-md-12">
-        <form>
-            <h1>Instructor Details</h1>
-            <div *ngIf="(instructor$ | async) as instructors;">
-                <h3> {{ instructors[0].name }}</h3>
-                <div *ngFor="let course of (courses$ | async)">
-                    <a [routerLink]="['/courses', 'course.id']">{{ course.name }}</a>
+    <div class="col-md-12 mx-auto">
+
+        <div *ngIf="(error$ | async) as error">
+            <div class="alert alert-danger">{{ error }}</div>
+        </div>
+
+        <div *ngIf="(courseError$ | async) as courseError">
+            <div class="alert alert-danger">{{ courseError }}</div>
+        </div>
+
+        <div *ngIf="(isLoading$ | async)" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <div></div>
+
+        <table *ngIf="!(isInstructorLoading$ | async) && !(error$ | async)" class="table mb-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let instructor of (instructor$ | async)">
+                    <td>{{ instructor.name }}</td>
+                    <td>{{ instructor.email }}</td>
+                    <td>{{ instructor.phone }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="(isLoading$ | async)" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <hr>
+
+        <div *ngIf="!(isLoading$ | async) && !(courseError$ | async)" class="col-md-6 mx-auto">
+            <h4 class="mb-3">Courses By This Instructor</h4>
+            <div *ngIf="(courses$ | async) as courses">
+                <div *ngIf="courses.length === 0; else courseTable" class="alert alert-info mb-3">
+                    There is nor course created by this instructor.
                 </div>
+
+                <ng-template #courseTable>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let course of courses">
+                                <td>{{ course.name }}</td>
+                                <td>{{ course.description }}</td>
+                                <td>{{ course.level }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-template>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>

@@ -31,7 +31,7 @@ import { InstructorDetailsComponent } from './instructors/instructor-details/ins
     CreateCourseComponent,
     CreateInstructorComponent,
     UpdateCourseComponent,
-    InstructorDetailsComponent
+    InstructorDetailsComponent,
   ],
   imports: [
     BrowserModule,

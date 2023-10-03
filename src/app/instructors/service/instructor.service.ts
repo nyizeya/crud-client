@@ -29,5 +29,12 @@ export class InstructorService {
 
     return this._http.get<Response<Instructor>>(this._baseUrl);
   }
+
+  getInstrutorById(id: number): Observable<Response<Instructor>> {
+    console.log('inside service instructor id ', id);
+    console.log(`${this._baseUrl}/${id}`);
+    
+    return this._http.get<Response<Instructor>>(`${this._baseUrl}/${id}`);
+  }
   
 }
