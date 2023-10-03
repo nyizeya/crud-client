@@ -1,4 +1,4 @@
-export interface CourseDto {
+export interface CourseRegistrationRequest {
     id?: number;
     name: string;
     description: string;

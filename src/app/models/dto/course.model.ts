@@ -5,4 +5,5 @@ export interface Course {
     startDate: string;
     level: string;
     instructorId: number;
+    instructorName: string;
 }

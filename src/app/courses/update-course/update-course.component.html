@@ -1,0 +1,42 @@
+<div>
+    <div class="row">
+        <h3>Course Upate</h3>
+        <div class="col-md-6 bg-white rounded-lg mx-auto">
+            <form [formGroup]="courseForm">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" formControlName="name" placeholder="Course name" class="form-control">
+                    <span class="text-danger">{{ getCourseFieldErrorMessage(courseForm.controls['name'],  'Course name') }}</span>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input formControlName="startDate" type="date" class="form-control">
+                        <span class="text-danger">{{ getCourseFieldErrorMessage(courseForm.controls['startDate'],  'Start date') }}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Level</label>
+                        <select formControlName="level" class="form-select">
+                            <option [defaultSelected]="true" value="Basic">Basic</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Instructor</label>
+                        <select formControlName="instructorId" class="form-select">
+                            <option selected value="">Zaw Min Lwin</option>
+                            <option value="">Sayar San</option>
+                            <option value="">Thar Aye</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea formControlName="description" class="form-control" cols="30" rows="3"></textarea>
+                    <span class="text-danger">{{ getCourseFieldErrorMessage(courseForm.controls['description'],  'Course description') }}</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

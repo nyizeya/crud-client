@@ -1,47 +1,46 @@
 <div>
-    <div class="d-flex justify-content-between">
-        <h3>Courses</h3>
-        <form #searchForm="ngForm" (submit)="onSearch()">
-            <div class="input-group">
-                <input type="text" class="form-control" 
-                    [(ngModel)]="courseName"
-                    name="courseName"
-                    placeholder="Course name" aria-label="Course name" aria-describedby="basic-addon1">
-                <button class="btn btn-primary"><i class="bi bi-search"></i></button>
-              </div>
-        </form>
+    <h3>Courses</h3>
+    <div *ngIf="(isLoading$ | async); else dataTable;" class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
-    <div class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Course Name</th>
-                <th>Course Description</th>
-                <th>Course Level</th>
-                <th>Start Date</th>
-                <th>Instructor</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Java SE</td>
-                <td>Java for beginners</td>
-                <td>Basic</td>
-                <td>30-09-2023</td>
-                <td>
-                    <a href="#" class="text-decoration-none">Min Lwin</a>
-                </td>
-                <td class="d-flex gap-3">
-                    <a href="#" class="btn btn-outline-primary">
-                        <i class="bi bi-pencil"></i>
-                    </a>
-                    <a href="#" class="btn btn-outline-danger">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </div>
+
+    <!-- <div>
+        There is no data
+    </div> -->
+
+    <ng-template #dataTable>
+        <table datatable class="table table-striped row-border hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course Name</th>
+                    <th>Course Description</th>
+                    <th>Course Level</th>
+                    <th>Start Date</th>
+                    <th>Instructor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let course of(courses$ | async)">
+                    <td>{{ course.id }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.description }}</td>
+                    <td>{{ course.level }}</td>
+                    <td>{{ course.startDate }}</td>
+                    <td>
+                        <a [routerLink]="['/instructors', course.instructorId]" class="text-decoration-none">{{ course.instructorName }}</a>
+                    </td>
+                    <td class="d-flex gap-3">
+                        <a [routerLink]="['/courses', course.id]" class="btn btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
 </div>

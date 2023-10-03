@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <h1>Instructor Details</h1>
+            <div *ngIf="(instructor$ | async) as instructors;">
+                <h3> {{ instructors[0].name }}</h3>
+                <div *ngFor="let course of (courses$ | async)">
+                    <a [routerLink]="['/courses', 'course.id']">{{ course.name }}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

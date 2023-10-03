@@ -1,16 +1,13 @@
 import { Instructor } from "src/app/models/dto/instructor.model";
 
 export interface InstructorState {
-    instructors: Instructor[];
+    isLoading: boolean;
+    data: Instructor[];
+    error: string | null;
 }
 
-export const initialState: InstructorState = {
-    instructors: [
-        {
-            id: 1,
-            name: 'Nyi Zeya',
-            email: 'nyizeya@gmail.com',
-            phone: '09787820722'
-        }
-    ]
+export const instructorInitialState: InstructorState = {
+    isLoading: false,
+    data: [],
+    error: null
 }

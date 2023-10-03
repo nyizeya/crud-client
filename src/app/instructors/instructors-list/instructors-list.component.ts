@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs";
-import { AppState } from 'src/app/app.state';
-import { Response } from 'src/app/models/dto/response.model';
 import { Instructor } from 'src/app/models/dto/instructor.model';
-import { getAllInstructorAction } from '../state/instructors.actions';
+import { getInstructor, getInstructorError, getInstructorLoading } from '../state/instructors.selectors';
+import { getAllInstructorStart } from '../state/instructors.actions';
+import { InstructorState } from '../state/instructors.state';
 
 @Component({
   selector: 'app-instructors-list',
@@ -13,14 +13,26 @@ import { getAllInstructorAction } from '../state/instructors.actions';
 })
 export class InstructorsListComponent implements OnInit {
 
-  instructorList$?: Observable<Response<Instructor>>;
+  isLoading$?: Observable<boolean>;
+  errorMessage$?: Observable<string | null>;
+  instructors$?: Observable<Instructor[]>;
 
   constructor(
-    private _store: Store<AppState>
+    private _store: Store<{'instructor': Instructor}>
   ) {}
 
   ngOnInit(): void {
-    this._store.dispatch(getAllInstructorAction())
+   this.isLoading$ = this._store.select(getInstructorLoading);
+   this.errorMessage$ = this._store.select(getInstructorError);
+   this.instructors$ = this._store.select(getInstructor);
+
+   this._loadInstructors();
+  }
+  
+  _loadInstructors() {
+    console.log('_loadInstructors()');
+    
+    this._store.dispatch(getAllInstructorStart())
   }
 
 }
