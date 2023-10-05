@@ -1,5 +1,10 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
+        <div *ngIf="(error$ | async) as error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Login Error!</strong> {{ error }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <h3>Login</h3>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label class="form-label">Username</label>
@@ -16,7 +21,7 @@
                 </div>
             </div>
             <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-lg btn-primary">Login</button>
+                <button [disabled]="(isLoading$ | async)" type="submit" class="btn btn-lg btn-primary">Login</button>
             </div>
         </form>
     </div>

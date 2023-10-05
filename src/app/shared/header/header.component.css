@@ -1,0 +1,10 @@
+.logout {
+    cursor: pointer;
+}
+
+.logout:hover {
+    background-color: antiquewhite;
+    border-radius: 20px;
+
+    transition: 0.5s;
+}

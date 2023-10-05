@@ -15,7 +15,7 @@ const _instructorReducer = createReducer(
     on(instructorActions.getAllInstructorSuccess, (state: InstructorState, action: Response<Instructor>) => {
         return {
             ...state,
-            data: action.data,
+            data: action.data!,
             isLoading: false
         }
     }),
@@ -36,7 +36,7 @@ const _instructorReducer = createReducer(
         return {
             ...state,
             isLoading: false,
-            data: action.data
+            data: action.data!
         }
     }),
     on(instructorActions.getInstructorByIdFail, (state: InstructorState, action: {message: string}) => {

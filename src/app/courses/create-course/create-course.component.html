@@ -1,1 +1,78 @@
-<p>create-course works!</p>
+<div class="row">
+    <h3>{{ courseId === 0 ? 'Create' : 'Update' }} Course</h3>
+    <div class="col-md-6">
+        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" name="id" formControlName="id">
+            <div class="mb-3">
+                <label for="" class="form-label">Name</label>
+                <input type="text" formControlName="name" [value]="courseForm.controls['name'].value" class="form-control">
+                <div *ngIf="!courseForm.controls['name'].valid">
+                    <span class="text-danger">{{ getCourseNameControlErrors(courseForm.controls['name']) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Start Date</label>
+                        <input type="date" formControlName="startDate" 
+                            class="form-control"
+                            value="{{ courseForm.controls['startDate'].value }}">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Level</label>
+                        <select formControlName="level" class="form-select">
+                            <option selected value="">Choose Level</option>
+                            <option 
+                                *ngFor="let level of getLevels()"
+                                selected="{{level === courseForm.controls['level'].value}}"
+                                [value]="level"
+                            >
+                                {{ level }}
+                            </option>
+                        </select>
+                        <div *ngIf="!courseForm.controls['level'].valid">
+                            <span class="text-danger">{{ getCourseLevelControlErrors(courseForm.controls['level']) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Instructor</label>
+                        <select formControlName="instructorId" 
+                            class="form-select"
+                        >
+                            <option selected value="">Choose Instructor</option>
+                            <option 
+                                *ngFor="let instructor of (instructors$ | async)"
+                                selected="{{instructor.id === courseForm.controls['instructorId'].value}}"
+                                [value]="instructor.id"
+                            >   
+                                {{ instructor.name }}
+                            </option>
+                        </select>
+                        <div *ngIf="!courseForm.controls['instructorId'].valid">
+                            <span class="text-danger">{{ getInstructorControlErrors(courseForm.controls['instructorId']) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea formControlName="description" cols="10" rows="3" class="form-control"></textarea>
+                    <div *ngIf="!courseForm.controls['description'].valid">
+                        <span class="text-danger">{{ getCourseDescriptionControlErrors(courseForm.controls['description']) }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 mx-auto">
+                <button *ngIf="(isCourseUpdateLoading$ | async) || (!courseForm.valid)" class="btn btn-danger btn-lg disabled">
+                    Pending
+                </button>
+                <button *ngIf="!(isCourseUpdateLoading$ | async) && (courseForm.valid)" class="btn btn-outline-primary btn-lg">
+                    {{ courseId === 0 ? 'Create' : 'Update' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

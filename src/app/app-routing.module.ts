@@ -4,19 +4,34 @@ import { HomeComponent } from './home/home.component';
 import { InstructorsListComponent } from './instructors/instructors-list/instructors-list.component';
 import { InstructorDetailsComponent } from './instructors/instructor-details/instructor-details.component';
 import { LoginComponent } from './shared/auth/login/login.component';
+import { authGuard } from './shared/auth/auth.guard';
+import { CreateCourseComponent } from './courses/create-course/create-course.component';
 
 const routes: Routes = [
   {
     path: 'instructors/:id',
-    component: InstructorDetailsComponent
+    component: InstructorDetailsComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'instructors',
-    component:InstructorsListComponent
+    component:InstructorsListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'courses/new/:id',
+    component: CreateCourseComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'courses/:id',
+    component: CreateCourseComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'courses',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'auth/login',

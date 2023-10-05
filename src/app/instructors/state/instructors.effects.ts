@@ -28,7 +28,7 @@ export class InstructorEffects {
                         console.log('error ', res);
 
                         if (res instanceof HttpErrorResponse) {
-                            return of(getAllInstructorFail({message: 'Error Getting Instructors Loaded'}))
+                            return of(getAllInstructorFail({message: res.error.error ?? 'Error Getting Instructors Loaded'}))
                         }
 
                         return of(getAllInstructorFail({message: res.error ?? 'Unknown Error Occurred'}))
@@ -52,7 +52,7 @@ export class InstructorEffects {
                     catchError((res: Response<Instructor> | HttpErrorResponse) => {
                         console.log('error getting instructor by id ', res);
                         if (res instanceof HttpErrorResponse) {
-                            return of(getInstructorByIdFail({message: 'Error Getting Single Instructor Loaded'}))
+                            return of(getInstructorByIdFail({message: res.error.error ?? 'Error Getting Single Instructor Loaded'}))
                         }
                         return of(getInstructorByIdFail({message: res.error ?? 'An Unknown Error'}))
                     })

@@ -4,6 +4,10 @@ import { getAllCourseStart } from '../state/course.actions';
 import { Course } from 'src/app/models/dto/course.model';
 import { Observable } from 'rxjs';
 import { getCourse, getCourseError, getCourseLoading } from '../state/course.selectors';
+import { AuthState } from 'src/app/shared/auth/state/auth.state';
+import { CourseState } from '../state/course.state';
+import { getAuthenticated, getSuccess } from 'src/app/shared/auth/state/auth.selectors';
+import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -21,12 +25,23 @@ export class CoursesListComponent implements OnInit {
   errorMessage$?: Observable<string | null>;
   courses$?: Observable<Course[]>;
 
-  constructor(private _store: Store<{'course': Course}>) {}
+  isAuthenticated = false;
+
+  constructor(
+    private _store: Store<{'course': CourseState, 'auth': AuthState}>,
+    private _authSerivce: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this._store.select(getCourseLoading);
     this.errorMessage$ = this._store.select(getCourseError);
     this.courses$ = this._store.select(getCourse);
+
+    this._store.select(getAuthenticated).subscribe({
+      next: (val: boolean) => {
+        this.isAuthenticated = val
+      }
+    })
 
     this._loadCourses();
   }

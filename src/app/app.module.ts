@@ -1,6 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { DataTablesModule } from "angular-datatables";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,8 @@ import { CourseEffects } from './courses/state/course.effects';
 import { UpdateCourseComponent } from './courses/update-course/update-course.component';
 import { InstructorEffects } from './instructors/state/instructors.effects';
 import { InstructorDetailsComponent } from './instructors/instructor-details/instructor-details.component';
+import { AuthEffects } from './shared/auth/state/auth.effects';
+import { HttpInterceptorService } from './shared/auth/http-interceptor.service';
 
 
 @NgModule({
@@ -42,10 +44,16 @@ import { InstructorDetailsComponent } from './instructors/instructor-details/ins
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot(AppState),
-    EffectsModule.forRoot([CourseEffects, InstructorEffects]),
+    EffectsModule.forRoot([CourseEffects, InstructorEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: true })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

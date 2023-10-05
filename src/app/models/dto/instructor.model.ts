@@ -3,5 +3,10 @@ export interface Instructor {
     name: string;
     email: string;
     phone: string;
+    role: Role
+}
+
+export enum Role {
+    ADMIN, INSTRUCTOR
 }
   

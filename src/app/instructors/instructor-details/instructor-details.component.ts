@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Instructor } from 'src/app/models/dto/instructor.model';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { getInstructor, getInstructorError, getInstructorLoading } from '../state/instructors.selectors';
+import { getInstructor, getInstructorError, getInstructorLoading, getSingleInstructor } from '../state/instructors.selectors';
 import { Course } from 'src/app/models/dto/course.model';
 import { getCourse, getCourseError, getCourseLoading } from 'src/app/courses/state/course.selectors';
 import { getCoursesByInstructorStart } from 'src/app/courses/state/course.actions';
@@ -22,6 +22,7 @@ export class InstructorDetailsComponent implements OnInit {
   courseError$!: Observable<string | null>;
   instructor$!: Observable<Instructor[]>;
   courses$!: Observable<Course[]>;
+  singleInstructor!: Instructor
 
   constructor(
     private _store: Store<{}>,
@@ -49,5 +50,15 @@ export class InstructorDetailsComponent implements OnInit {
 
     this._store.dispatch(getInstructorByIdStart({id}));  
     this._store.dispatch(getCoursesByInstructorStart({id}));
+
+    this._store.select(getSingleInstructor).subscribe({
+      next: (val: Instructor) => {
+        this.singleInstructor = val
+      }
+    });
+    
+    console.log(this.singleInstructor);
+    
   }
+
 }
