@@ -6,6 +6,7 @@ import { Response } from 'src/app/models/dto/response.model';
 import { CourseRequest } from '../state/course.actions';
 import { Course } from 'src/app/models/dto/course.model';
 import { CourseUpdateRequest } from 'src/app/models/reqeust_dto/course/course.update.model';
+import { CourseRegistrationRequest } from 'src/app/models/reqeust_dto/course/course.registration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,10 @@ export class CourseService {
       level: request.level,
       instructorId: request.instructorId
     });
+  }
+
+  createCourse(request: CourseRegistrationRequest): Observable<Response<Course>> {
+    return this._http.post<Response<Course>>(`${this._baseUrl}`, request);
   }
 
 }

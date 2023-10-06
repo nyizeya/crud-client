@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Course } from "src/app/models/dto/course.model";
 import { getCourseLoading, getSingleCourse } from "../state/course.selectors";
-import { courseUpdateStart, getSingleCourseStart } from "../state/course.actions";
+import { courseCreationStart, courseUpdateStart, getSingleCourseStart } from "../state/course.actions";
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Instructor } from "src/app/models/dto/instructor.model";
 import { getAllInstructorStart } from "src/app/instructors/state/instructors.actions";
 import { getInstructor } from "src/app/instructors/state/instructors.selectors";
 import { formatDate } from "@angular/common";
 import { InstructorState } from "src/app/instructors/state/instructors.state";
+import { CourseRegistrationRequest } from "src/app/models/reqeust_dto/course/course.registration.model";
 
 @Component({
   selector: 'app-create-course',
@@ -59,18 +60,28 @@ export class CreateCourseComponent implements OnInit {
     return ['Basic', 'Intermediate', 'Advanced'];
   }
 
-  onSubmit() {
-    console.log('on submit ', this.courseForm.getRawValue());
-    console.log(this.courseForm);
+  onSubmit() {    
+    if (this.courseId === 0) {
+      console.log('start date ', this.courseForm.get('startDate'));
+      
+      // let request: CourseRegistrationRequest = {
+      //   ...this.courseForm.getRawValue(),
+      //   startDate: formatDate(new Date(this.courseForm.get('startDate')?.value), 'yyyy-MM-dd', 'en')
+      // }
+
+      this._store.dispatch(courseCreationStart(this.courseForm.getRawValue()));
+      this._router.navigate(['/courses']);
     
+    } else {
+      this._store.dispatch(courseUpdateStart(this.courseForm.getRawValue()));
+      this._router.navigate(['/courses']);
+    }
     
-    // this._store.dispatch(courseUpdateStart(this.courseForm.getRawValue()));
-    this._router.navigateByUrl('/courses');
   }
 
   courseCreateForm() {
     this.courseForm = this._formBuilder.group({
-      id: new FormControl(''),
+      id: new FormControl(null),
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       startDate: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), [Validators.required]),
@@ -83,10 +94,10 @@ export class CreateCourseComponent implements OnInit {
     console.log('course ', course);
     
     const dateString = course.startDate;
-    const dateParts = dateString.split("-"); // Split the string into day, month, and year parts
-    const year = parseInt(dateParts[2], 10);
-    const month = parseInt(dateParts[1], 10) - 1; // Subtract 1 because months are 0-based
-    const day = parseInt(dateParts[0], 10);
+    const dateParts = dateString.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
     
     if (course) {
       this.courseForm = this._formBuilder.group({
@@ -128,6 +139,14 @@ export class CreateCourseComponent implements OnInit {
     if (control.touched && !control.valid) {
       if (control.errors?.['required']) {
         return 'Course level is required.';
+      }
+    }
+  }
+
+  getCourseDateControlErrors(control: AbstractControl): string | void {
+    if (control.touched && !control.valid) {
+      if (control.errors?.['required']) {
+        return 'Course Start Date is required.'
       }
     }
   }

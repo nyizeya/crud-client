@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3>Register</h3>
+
+        <form [formGroup]="registrationForm">
+            <div class="mb-3">
+                <label for="" class="form-label">Name</label>
+                <input type="text" formControlName="name" placeholder="Your name" class="form-control">
+                <div *ngIf="!registrationForm.controls['name'].valid">
+                    <span class="text-danger">{{ getNameControlError(registrationForm.controls['name']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Email</label>
+                <input type="email" formControlName="email" placeholder="Your email" class="form-control">
+                <div *ngIf="!registrationForm.controls['email'].valid">
+                    <span class="text-danger">{{ getEmailControlError(registrationForm.controls['email']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Password</label>
+                <input type="password" formControlName="password" placeholder="Your password" class="form-control">
+                <div *ngIf="!registrationForm.controls['password'].valid">
+                    <span class="text-danger">{{ getPasswordControlError(registrationForm.controls['password']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Phone</label>
+                <input type="text" formControlName="phone" placeholder="Your phone" class="form-control">
+                <div *ngIf="!registrationForm.controls['phone'].valid">
+                    <span class="text-danger">{{ getPhoneControlError(registrationForm.controls['phone']) }}</span>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <button *ngIf="!registrationForm.valid" class="btn btn-lg btn-danger disabled">Pending</button>
+                <button *ngIf="registrationForm.valid" class="btn btn-lg btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -4,6 +4,7 @@ import * as courseActions from "./course.actions";
 import { Course } from "src/app/models/dto/course.model";
 import { Response } from "src/app/models/dto/response.model";
 import { CourseUpdateRequest } from "src/app/models/reqeust_dto/course/course.update.model";
+import { CourseRegistrationRequest } from "src/app/models/reqeust_dto/course/course.registration.model";
 
 const _courseReducer = createReducer(
     courseInitialState,
@@ -82,6 +83,26 @@ const _courseReducer = createReducer(
         }
     }),
     on(courseActions.courseUpdateFail, (state: CourseState, action: {message: string}) => {
+        return {
+            ...state,
+            isLoading: false,
+            error: action.message
+        }
+    }),
+    on(courseActions.courseCreationStart, (state: CourseState, action: CourseRegistrationRequest) => {
+        return {
+            ...state,
+            isLoading: true
+        }
+    }),
+    on(courseActions.courseCreationSuccess, (state: CourseState, action: Response<Course>) => {
+        return {
+            ...state,
+            isLoading: false,
+            data: action.data!
+        }
+    }),
+    on(courseActions.courseCreationFail, (state: CourseState, action: {message: string}) => {
         return {
             ...state,
             isLoading: false,

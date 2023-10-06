@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { Course } from "src/app/models/dto/course.model";
 import { Response } from "src/app/models/dto/response.model";
+import { CourseRegistrationRequest } from "src/app/models/reqeust_dto/course/course.registration.model";
 import { CourseUpdateRequest } from "src/app/models/reqeust_dto/course/course.update.model";
 
 export type CourseRequest = {
@@ -25,7 +26,12 @@ export const getSingleCourseStart = createAction('[Course Page] get course by id
 export const getSingleCourseSuccess = createAction('[Course Page] get course by id success', props<Response<Course>>());
 export const getSingleCourseFail = createAction('[Course Page] get course by id fail', props<{message: string}>());
 
-// Create And Update Course
+// Update Course
 export const courseUpdateStart = createAction('[Course Page] update course start', props<CourseUpdateRequest>());
 export const courseUpdateSuccess = createAction('[Course Page] update course success', props<Response<Course>>());
 export const courseUpdateFail = createAction('[Course Page] update course fail', props<{message: string}>());
+
+// Create Course
+export const courseCreationStart = createAction('[Course Page] create course start', props<CourseRegistrationRequest>());
+export const courseCreationSuccess = createAction('[Course Page] create course success', props<Response<Course>>());
+export const courseCreationFail = createAction('[Course Page] create course fail', props<{message: string}>());

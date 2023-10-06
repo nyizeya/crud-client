@@ -16,7 +16,8 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
 
   constructor(
-    private _store: Store<{'login': AuthState}>
+    private _store: Store<{'login': AuthState}>,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +30,7 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this._store.dispatch(logoutActionStart());
+    this._router.navigate(['/auth/login'])
   }
 
 }

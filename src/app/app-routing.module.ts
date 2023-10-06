@@ -6,6 +6,7 @@ import { InstructorDetailsComponent } from './instructors/instructor-details/ins
 import { LoginComponent } from './shared/auth/login/login.component';
 import { authGuard } from './shared/auth/auth.guard';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
+import { RegisterComponent } from './shared/auth/register/register.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'auth/login',
     component: LoginComponent
+  },
+  {
+    path: 'auth/register',
+    component: RegisterComponent
   },
   {
     path: '**',

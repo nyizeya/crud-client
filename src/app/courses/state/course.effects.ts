@@ -7,6 +7,7 @@ import { Response } from "src/app/models/dto/response.model";
 import { Course } from "src/app/models/dto/course.model";
 import { HttpErrorResponse } from "@angular/common/http";
 import { CourseUpdateRequest } from "src/app/models/reqeust_dto/course/course.update.model";
+import { CourseRegistrationRequest } from "src/app/models/reqeust_dto/course/course.registration.model";
 
 @Injectable()
 export class CourseEffects {
@@ -106,11 +107,39 @@ export class CourseEffects {
 
                         if (res instanceof HttpErrorResponse) {
                             message = res.error.error ?? 'Unknown Error Occurred'
+                        } else {
+                            message = res.error ?? 'Unknown Error Occurred';
                         }
 
-                        message = res.error ?? 'Unknown Error Occurred';
 
                         return of(courseActions.courseUpdateFail({message}));
+                    })
+                )
+            })
+        )
+    });
+
+    createCourse$ = createEffect(() => {
+        return this._actions.pipe(
+            ofType(courseActions.courseCreationStart),
+            mergeMap((action: CourseRegistrationRequest) => {
+                return this._courseService.createCourse(action).pipe(
+                    map((res: Response<Course>) => {
+                        console.log('course creation success');
+                        return courseActions.courseCreationSuccess(res);
+                    }),
+                    catchError((res: Response<Course> | HttpErrorResponse) => {
+                        console.log('course creation fail ', res);
+                        let message = '';
+
+                        if (res instanceof HttpErrorResponse) {
+                            message = res.error.error ?? 'Unknown Error Occurred';
+                        } else {
+                            message = res.error ?? 'Unknown Error Occurred';
+                        }
+
+
+                        return of(courseActions.courseCreationFail({message}));
                     })
                 )
             })

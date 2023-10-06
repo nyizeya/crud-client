@@ -17,6 +17,9 @@
                         <input type="date" formControlName="startDate" 
                             class="form-control"
                             value="{{ courseForm.controls['startDate'].value }}">
+                        <div *ngIf="!courseForm.controls['startDate'].valid">
+                            <span class="text-danger">{{ getCourseDateControlErrors(courseForm.controls['startDate']) }}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">

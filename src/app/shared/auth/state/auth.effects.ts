@@ -8,6 +8,8 @@ import { Token } from "src/app/models/dto/token.model";
 import { LoginRequest } from "src/app/models/reqeust_dto/auth/login.request";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { InstructorRegistrationRequest } from "src/app/models/reqeust_dto/instructor/instructor.registration.model";
+import { Instructor } from "src/app/models/dto/instructor.model";
 
 @Injectable()
 export class AuthEffects {
@@ -41,6 +43,20 @@ export class AuthEffects {
             })
         )
     });
+
+    register$ = createEffect(() => {
+        return this._actions.pipe(
+            ofType(loginaActions.registerActionStart),
+            mergeMap((action: InstructorRegistrationRequest) => {
+                return this._authService.register(action).pipe(
+                    map((res: Response<Instructor>) => {
+                        console.log('register success ', res);
+                        return loginaActions.registerActionSuccess(res);
+                    })
+                )
+            })
+        )
+    })
 
     checkTokenValidity$ = createEffect(() => {
         return this._actions.pipe(
