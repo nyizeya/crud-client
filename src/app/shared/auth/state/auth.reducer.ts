@@ -4,6 +4,8 @@ import { Action, createReducer, on } from "@ngrx/store";
 import * as loginActions from "./auth.actions";
 import { Response } from "src/app/models/dto/response.model";
 import { Token } from "src/app/models/dto/token.model";
+import {InstructorRegistrationRequest} from "../../../models/reqeust_dto/instructor/instructor.registration.model";
+import {Instructor} from "../../../models/dto/instructor.model";
 
 const _loginReducer = createReducer(
     authInitialState,
@@ -39,7 +41,7 @@ const _loginReducer = createReducer(
     }),
     on(loginActions.logoutActionStart, (state: AuthState) => {
         console.log('inside logoutActionStart Reducer()');
-        
+
         return {
             ...state,
             isLoading: true,
@@ -48,7 +50,7 @@ const _loginReducer = createReducer(
     }),
     on(loginActions.logoutActionSuccess, (state: AuthState) => {
         console.log('logout succeeded');
-        
+
         return {
             ...state,
             isAuthenticated: false,
@@ -57,7 +59,7 @@ const _loginReducer = createReducer(
     }),
     on(loginActions.logoutActionFail, (state: AuthState) => {
         console.log('logout failed but handled');
-        
+
         return {
             ...state,
             isAuthenticated: false,
@@ -83,6 +85,25 @@ const _loginReducer = createReducer(
             isLoading: false,
             error: action.message
         }
+    }),
+    on(loginActions.registerActionStart, (state: AuthState, action: InstructorRegistrationRequest) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }),
+    on(loginActions.registerActionSuccess, (state: AuthState, action: Response<Instructor>) => {
+      return {
+        ...state,
+        isLoading: false
+      }
+    }),
+    on(loginActions.registerActionFail, (state: AuthState, action: {message: string}) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.message
+      }
     })
 )
 

@@ -5,7 +5,7 @@ import * as courseActions from "./course.actions";
 import { catchError, map, mergeMap, of, timeout } from "rxjs";
 import { Response } from "src/app/models/dto/response.model";
 import { Course } from "src/app/models/dto/course.model";
-import { HttpErrorResponse } from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import { CourseUpdateRequest } from "src/app/models/reqeust_dto/course/course.update.model";
 import { CourseRegistrationRequest } from "src/app/models/reqeust_dto/course/course.registration.model";
 
@@ -22,7 +22,7 @@ export class CourseEffects {
                     timeout(3000),
                     map((data: Response<Course>) => {
                         console.log('success: ', data);
-                        
+
                         return courseActions.getAllCourseSuccess(data);
                     }),
                     catchError((response: Response<Course> | HttpErrorResponse) => {
@@ -30,13 +30,13 @@ export class CourseEffects {
                         console.log(response);
 
                         let message = '';
-                        
+
                         if (response instanceof HttpErrorResponse) {
                             message = response.error.error ?? 'Error While Getting Course List Loaded';
                         } else {
                             message = response.error ?? 'An Unknown Error Occurred';
                         }
-                        
+
                         return of(courseActions.getAllCourseFail({message}));
                         // return of(courseActions.getAllCourseFail({message: response.error ?? 'An Unknown Error Occurred'}));
 
@@ -54,14 +54,14 @@ export class CourseEffects {
                     timeout(3000),
                     map((data: Response<Course>) => {
                         console.log('success courses by instructor ', data.data);
-                        
+
                         return courseActions.getCoursesByInstructorSuccess(data);
                     }),
                     catchError((res: Response<Course> | HttpErrorResponse) => {
                         console.log('error getting courses by instructor id ', res);
 
                         if (res instanceof HttpErrorResponse) {
-                            return of(courseActions.getCoursesByInstructorFail({message: res.error.error ?? 'Error Getting Courses By Instructor Loaded.'})) 
+                            return of(courseActions.getCoursesByInstructorFail({message: res.error.error ?? 'Error Getting Courses By Instructor Loaded.'}))
                         }
 
                         return of(courseActions.getCoursesByInstructorFail({message: res.error ?? 'An Unknown Error Occurrred'}))
@@ -102,7 +102,7 @@ export class CourseEffects {
                     }),
                     catchError((res: Response<Course> | HttpErrorResponse) => {
                         console.log('course update fail ', res);
-                        
+
                         let message = '';
 
                         if (res instanceof HttpErrorResponse) {
@@ -144,6 +144,37 @@ export class CourseEffects {
                 )
             })
         )
+    });
+
+    deleteCourse$ = createEffect(() => {
+      return this._actions.pipe(
+        ofType(courseActions.courseDeleteStart),
+        mergeMap((action: {id: number}) => {
+          console.log('delete course start');
+          return this._courseService.deleteCourse(action.id).pipe(
+            map(res => {
+              console.log('delete course success');
+              console.log(res);
+              return courseActions.courseDeleteSuccess();
+            }),
+            catchError((res: HttpErrorResponse) => {
+              let message = '';
+
+              if (res instanceof HttpErrorResponse) {
+                console.log('delete course fail');
+                console.log(res);
+                message = res.error.error ?? 'Unknown Error Occurred';
+              }
+
+              if (res.status !== 200) {
+                message = res.error.error;
+              }
+
+              return of(courseActions.courseDeleteFail({message}));
+            })
+          );
+        })
+      )
     })
 
 }

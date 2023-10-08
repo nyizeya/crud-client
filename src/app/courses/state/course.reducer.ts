@@ -79,7 +79,8 @@ const _courseReducer = createReducer(
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            message: 'Course has been updated successfully'
         }
     }),
     on(courseActions.courseUpdateFail, (state: CourseState, action: {message: string}) => {
@@ -99,7 +100,8 @@ const _courseReducer = createReducer(
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            message: 'Course has been created successfully'
         }
     }),
     on(courseActions.courseCreationFail, (state: CourseState, action: {message: string}) => {
@@ -108,6 +110,26 @@ const _courseReducer = createReducer(
             isLoading: false,
             error: action.message
         }
+    }),
+    on(courseActions.courseDeleteStart, (state: CourseState, action: {id: number}) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }),
+    on(courseActions.courseDeleteSuccess, (state: CourseState) => {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Course has been deleted successfully'
+      }
+    }),
+    on(courseActions.courseDeleteFail, (state: CourseState, action: {message: string}) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.message
+      }
     })
 )
 

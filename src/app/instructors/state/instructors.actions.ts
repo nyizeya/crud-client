@@ -13,7 +13,7 @@ export const getInstructorByIdSuccess = createAction('[Instructor State] GET INS
 export const getInstructorByIdFail = createAction('[Instructor State] GET INSTRUCTOR BY ID', props<{message: string}>());
 
 
-export const addInstructorAction = createAction('[Instructor State] CREATE INSTRUCTOR', props<{instructor: InstructorRegistrationRequest}>());
-export const getInstructorByEmailAction = createAction('[Instructor State] GET INSTRUCTOR BY EMAIL', props<{email: string}>());
-export const updateInstructorAction = createAction('[Instructor State] UPDATE INSTRUCTOR', props<{id: number, instructor: InstructorUpdateRequest}>());
-export const deleteInstructorAction = createAction('[Instructor State] DELETE INSTRUCTOR', props<{id: number}>());
+// edit instructor
+export const editInstructorStart = createAction('[Instructor State] EDIT INSTRUCTOR START', props<InstructorUpdateRequest>());
+export const editInstructorSuccess = createAction('[Instructor State] EDIT INSTRUCTOR SUCCESS', props<Response<Instructor>>());
+export const editInstructorFail = createAction('[Instructor State] EDIT INSTRUCTOR FAIL', props<{message: string}>());

@@ -15,7 +15,7 @@ import { Instructor } from "src/app/models/dto/instructor.model";
 export class AuthEffects {
 
     constructor(
-        private _actions: Actions, 
+        private _actions: Actions,
         private _authService: AuthService,
         private _router: Router
     ) {}
@@ -32,7 +32,7 @@ export class AuthEffects {
                     }),
                     catchError((res: Response<Token> | HttpErrorResponse) => {
                         console.log('login error inside effects ', res);
-                        
+
                         if (res instanceof HttpErrorResponse) {
                             return of(loginaActions.loginActionFail({message: res.error.error ?? 'Login Attampt Failed'}))
                         }
@@ -51,8 +51,20 @@ export class AuthEffects {
                 return this._authService.register(action).pipe(
                     map((res: Response<Instructor>) => {
                         console.log('register success ', res);
+                        this._router.navigate(['/auth/login']);
                         return loginaActions.registerActionSuccess(res);
-                    })
+                    }),
+                  catchError((res: Response<Instructor> | HttpErrorResponse) => {
+                    console.log(res);
+                    let message = '';
+                    if (res instanceof HttpErrorResponse) {
+                      message = res.error.error;
+                    } else {
+                      message = res.error!;
+                    }
+                    this._router.navigate(['/auth/register']);
+                    return of(loginaActions.registerActionFail({message}));
+                  })
                 )
             })
         )
@@ -78,14 +90,14 @@ export class AuthEffects {
             mergeMap(action => {
                 return this._authService.logout().pipe(
                     map(() => {
-                        this._router.navigateByUrl('/courses')
+                        this._router.navigate(['/auth/login'])
                         return loginaActions.logoutActionSuccess();
                     }),
                     catchError(err => {
-                        this._router.navigateByUrl('/auth/login')
+                        this._router.navigate(['/auth/login'])
                         return of(loginaActions.logoutActionFail());
                     })
-                ) 
+                )
             })
         )
     })

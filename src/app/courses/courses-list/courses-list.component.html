@@ -5,7 +5,7 @@
             Add New Course <i class="bi bi-plus-lg"></i>
         </a>
     </div>
-    
+
     <div *ngIf="(errorMessage$ | async) as errorMessage;" class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>{{errorMessage}}!</strong>.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -44,7 +44,7 @@
                             <a [routerLink]="['/courses/', course.id]" class="btn btn-outline-primary">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="btn btn-outline-danger">
+                            <a href="#" (click)="deleteCourse(course.id)" class="btn btn-outline-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>

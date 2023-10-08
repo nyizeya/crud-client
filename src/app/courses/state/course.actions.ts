@@ -35,3 +35,8 @@ export const courseUpdateFail = createAction('[Course Page] update course fail',
 export const courseCreationStart = createAction('[Course Page] create course start', props<CourseRegistrationRequest>());
 export const courseCreationSuccess = createAction('[Course Page] create course success', props<Response<Course>>());
 export const courseCreationFail = createAction('[Course Page] create course fail', props<{message: string}>());
+
+// Delete Course
+export const courseDeleteStart = createAction('[Course Page] delete course start', props<{id: number}>());
+export const courseDeleteSuccess = createAction('[Course Page] delete course success');
+export const courseDeleteFail = createAction('[Course Page] delete course fail', props<{message: string}>());

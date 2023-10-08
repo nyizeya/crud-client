@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getAllCourseStart } from '../state/course.actions';
+import {courseDeleteStart, getAllCourseStart} from '../state/course.actions';
 import { Course } from 'src/app/models/dto/course.model';
 import { Observable } from 'rxjs';
 import { getCourse, getCourseError, getCourseLoading } from '../state/course.selectors';
@@ -8,6 +8,7 @@ import { AuthState } from 'src/app/shared/auth/state/auth.state';
 import { CourseState } from '../state/course.state';
 import { getAuthenticated, getSuccess } from 'src/app/shared/auth/state/auth.selectors';
 import { AuthService } from 'src/app/shared/auth/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-courses-list',
@@ -29,7 +30,8 @@ export class CoursesListComponent implements OnInit {
 
   constructor(
     private _store: Store<{'course': CourseState, 'auth': AuthState}>,
-    private _authSerivce: AuthService
+    private _authService: AuthService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,11 +50,16 @@ export class CoursesListComponent implements OnInit {
 
   _loadCourses() {
     this._store.dispatch(getAllCourseStart({
-      name: this.courseName, 
-      level: this.level, 
-      pageNumber: this.pageNumber, 
+      name: this.courseName,
+      level: this.level,
+      pageNumber: this.pageNumber,
       size: this.size
     }));
+  }
+
+  deleteCourse(id: number) {
+    this._store.dispatch(courseDeleteStart({id}));
+    this._router.navigate(['/courses']);
   }
 
 }

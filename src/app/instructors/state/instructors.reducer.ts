@@ -3,6 +3,7 @@ import { InstructorState, instructorInitialState } from "./instructors.state";
 import * as instructorActions from "./instructors.actions";
 import { Response } from "src/app/models/dto/response.model";
 import { Instructor } from "src/app/models/dto/instructor.model";
+import {InstructorUpdateRequest} from "../../models/reqeust_dto/instructor/instructor.update.model";
 
 const _instructorReducer = createReducer(
     instructorInitialState,
@@ -45,6 +46,25 @@ const _instructorReducer = createReducer(
             isLoading: false,
             error: action.message
         }
+    }),
+    on(instructorActions.editInstructorStart, (state: InstructorState, action: InstructorUpdateRequest) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }),
+    on(instructorActions.editInstructorSuccess, (state: InstructorState, action: Response<Instructor>) => {
+      return {
+        ...state,
+        isLoading: false
+      }
+    }),
+    on(instructorActions.editInstructorFail, (state: InstructorState, action: {message: string}) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.message
+      }
     })
 )
 

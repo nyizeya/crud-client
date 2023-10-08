@@ -4,8 +4,18 @@ import { catchError, map, mergeMap, of, timeout } from "rxjs";
 import { InstructorService } from "../service/instructor.service";
 import { Response } from "src/app/models/dto/response.model";
 import { Instructor } from "src/app/models/dto/instructor.model";
-import { getAllInstructorFail, getAllInstructorStart, getAllInstructorSuccess, getInstructorByIdFail, getInstructorByIdStart, getInstructorByIdSuccess } from "./instructors.actions";
+import {
+  editInstructorFail,
+  editInstructorStart, editInstructorSuccess,
+  getAllInstructorFail,
+  getAllInstructorStart,
+  getAllInstructorSuccess,
+  getInstructorByIdFail,
+  getInstructorByIdStart,
+  getInstructorByIdSuccess
+} from "./instructors.actions";
 import { HttpErrorResponse } from "@angular/common/http";
+import {InstructorUpdateRequest} from "../../models/reqeust_dto/instructor/instructor.update.model";
 
 @Injectable()
 export class InstructorEffects {
@@ -14,7 +24,7 @@ export class InstructorEffects {
 
     instructors$ = createEffect(() => {
         console.log('inside instructors effect()');
-        
+
         return this._actions.pipe(
             ofType(getAllInstructorStart),
             mergeMap(action => {
@@ -46,7 +56,7 @@ export class InstructorEffects {
                     timeout(3000),
                     map((data: Response<Instructor>) => {
                         console.log('single instructor: ', data.data);
-                        
+
                         return getInstructorByIdSuccess(data);
                     }),
                     catchError((res: Response<Instructor> | HttpErrorResponse) => {
@@ -59,6 +69,31 @@ export class InstructorEffects {
                 )
             })
         )
+    });
+
+    updateInstructor$ = createEffect(() => {
+      return this._actions.pipe(
+        ofType(editInstructorStart),
+        mergeMap((action: InstructorUpdateRequest) =>{
+          return this._instructorService.editInstructor(action).pipe(
+            map((data: Response<Instructor>) => {
+              console.log(data);
+              return editInstructorSuccess(data);
+            }),
+            catchError((res: Response<Instructor> | HttpErrorResponse) => {
+              console.log(res);
+              let message = '';
+              if (res instanceof HttpErrorResponse) {
+                message = res.error.error;
+              }
+
+              message = res.error;
+
+              return of(editInstructorFail({message}));
+            })
+          )
+        })
+      )
     })
 
 }
