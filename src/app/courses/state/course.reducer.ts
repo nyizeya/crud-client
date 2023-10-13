@@ -11,14 +11,16 @@ const _courseReducer = createReducer(
     on(courseActions.getAllCourseStart, (state: CourseState, action: courseActions.CourseRequest) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(courseActions.getAllCourseSuccess, (state: CourseState, action: Response<Course>) => {
         return {
             ...state,
             data: action.data!,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     }),
     on(courseActions.getAllCourseFail, (state: CourseState, action: {message: string | null}) => {
@@ -31,7 +33,8 @@ const _courseReducer = createReducer(
     on(courseActions.getSingleCourseStart, (state: CourseState, action: {id: number}) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
 
     }),
@@ -39,7 +42,8 @@ const _courseReducer = createReducer(
         return {
             ...state,
             data: action.data!,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     }),
     on(courseActions.getSingleCourseFail, (state: CourseState, action: {message: string}) => {
@@ -52,14 +56,16 @@ const _courseReducer = createReducer(
     on(courseActions.getCoursesByInstructorStart, (state: CourseState, action: {id: number}) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(courseActions.getCoursesByInstructorSuccess, (state: CourseState, action: Response<Course>) => {
         return {
             ...state,
             data: action.data!,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     }),
     on(courseActions.getCoursesByInstructorFail, (state: CourseState, action: {message: string}) => {
@@ -72,14 +78,16 @@ const _courseReducer = createReducer(
     on(courseActions.courseUpdateStart, (state: CourseState, action: CourseUpdateRequest) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(courseActions.courseUpdateSuccess, (state: CourseState, action: Response<Course>) => {
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            error: null
         }
     }),
     on(courseActions.courseUpdateFail, (state: CourseState, action: {message: string}) => {
@@ -92,14 +100,16 @@ const _courseReducer = createReducer(
     on(courseActions.courseCreationStart, (state: CourseState, action: CourseRegistrationRequest) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(courseActions.courseCreationSuccess, (state: CourseState, action: Response<Course>) => {
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            error: null
         }
     }),
     on(courseActions.courseCreationFail, (state: CourseState, action: {message: string}) => {

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../state/auth.state';
+import { registerActionStart } from '../state/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +15,9 @@ export class RegisterComponent implements OnInit {
   registrationForm!: FormGroup;
 
   constructor(
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _store: Store<AuthState>,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +32,9 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registrationForm.getRawValue());
+    this._store.dispatch(registerActionStart(this.registrationForm.getRawValue()));
     
+    this._router.navigateByUrl('/instructors');
   }
 
   getNameControlError(control: AbstractControl): string | void {

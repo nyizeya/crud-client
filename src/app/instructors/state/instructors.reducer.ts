@@ -3,20 +3,23 @@ import { InstructorState, instructorInitialState } from "./instructors.state";
 import * as instructorActions from "./instructors.actions";
 import { Response } from "src/app/models/dto/response.model";
 import { Instructor } from "src/app/models/dto/instructor.model";
+import { InstructorUpdateRequest } from "src/app/models/reqeust_dto/instructor/instructor.update.model";
 
 const _instructorReducer = createReducer(
     instructorInitialState,
     on(instructorActions.getAllInstructorStart, (state) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(instructorActions.getAllInstructorSuccess, (state: InstructorState, action: Response<Instructor>) => {
         return {
             ...state,
             data: action.data!,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     }),
     on(instructorActions.getAllInstructorFail, (state: InstructorState, action: {message: string | null}) => {
@@ -29,17 +32,40 @@ const _instructorReducer = createReducer(
     on(instructorActions.getInstructorByIdStart, (state: InstructorState, action: {id: number}) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(instructorActions.getInstructorByIdSuccess, (state: InstructorState, action: Response<Instructor>) => {
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            error: null
         }
     }),
     on(instructorActions.getInstructorByIdFail, (state: InstructorState, action: {message: string}) => {
+        return {
+            ...state,
+            isLoading: false,
+            error: action.message
+        }
+    }),
+    on(instructorActions.editInstructorActionStart, (state: InstructorState, action: InstructorUpdateRequest) => {
+        return {
+            ...state,
+            isLoading: true,
+            error: null
+        }
+    }),
+    on(instructorActions.editInstructorActionSuccess, (state: InstructorState, action: Response<Instructor>) => {
+        return {
+            ...state,
+            isLoading: false,
+            error: null
+        }
+    }),
+    on(instructorActions.editInstructorActionFail, (state: InstructorState, action: {message: string}) => {
         return {
             ...state,
             isLoading: false,

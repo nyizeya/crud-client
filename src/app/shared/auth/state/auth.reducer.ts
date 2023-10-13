@@ -4,6 +4,8 @@ import { Action, createReducer, on } from "@ngrx/store";
 import * as loginActions from "./auth.actions";
 import { Response } from "src/app/models/dto/response.model";
 import { Token } from "src/app/models/dto/token.model";
+import { InstructorRegistrationRequest } from "src/app/models/reqeust_dto/instructor/instructor.registration.model";
+import { Instructor } from "src/app/models/dto/instructor.model";
 
 const _loginReducer = createReducer(
     authInitialState,
@@ -11,7 +13,8 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isLoading: true,
-            success: false
+            success: false,
+            error: null
         }
     }),
     on(loginActions.loginActionSuccess, (state: AuthState, action: Response<Token>) => {
@@ -25,7 +28,9 @@ const _loginReducer = createReducer(
             isLoading: false,
             data: action.data!,
             success: true,
-            isAuthenticated: true
+            isAuthenticated: true,
+            message: "You've have logged in successfully.",
+            error: null
         }
     }),
     on(loginActions.loginActionFail, (state: AuthState, action: {message: string}) => {
@@ -43,7 +48,8 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isLoading: true,
-            isAuthenticated: false
+            isAuthenticated: false,
+            error: null
         }
     }),
     on(loginActions.logoutActionSuccess, (state: AuthState) => {
@@ -52,7 +58,9 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: false,
+            message: "You have logged out.",
+            error: null
         }
     }),
     on(loginActions.logoutActionFail, (state: AuthState) => {
@@ -78,6 +86,28 @@ const _loginReducer = createReducer(
         }
     }),
     on(loginActions.checkTokenActionFail, (state: AuthState, action: {message: string}) => {
+        return {
+            ...state,
+            isLoading: false,
+            error: action.message
+        }
+    }),
+    on(loginActions.registerActionStart, (state: AuthState, action: InstructorRegistrationRequest) => {
+        return {
+            ...state,
+            isLoading: true,
+            error: null
+        }
+    }),
+    on(loginActions.registerActionSuccess, (state: AuthState, action: Response<Instructor>) => {
+        return {
+            ...state,
+            isLoading: false,
+            message: "You have registered. Please Login.",
+            error: null
+        }
+    }),
+    on(loginActions.registerActionFail, (state: AuthState, action: {message: string}) => {
         return {
             ...state,
             isLoading: false,

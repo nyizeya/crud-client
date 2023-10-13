@@ -17,3 +17,7 @@ export const addInstructorAction = createAction('[Instructor State] CREATE INSTR
 export const getInstructorByEmailAction = createAction('[Instructor State] GET INSTRUCTOR BY EMAIL', props<{email: string}>());
 export const updateInstructorAction = createAction('[Instructor State] UPDATE INSTRUCTOR', props<{id: number, instructor: InstructorUpdateRequest}>());
 export const deleteInstructorAction = createAction('[Instructor State] DELETE INSTRUCTOR', props<{id: number}>());
+
+export const editInstructorActionStart = createAction('[Instructor State] EDIT INSTRUCTOR START', props<InstructorUpdateRequest>());
+export const editInstructorActionSuccess = createAction('[Instructor State] EDIT INSTRUCTOR SUCCESS', props<Response<Instructor>>());
+export const editInstructorActionFail = createAction('[Instructor State] EDIT INSTRUCTOR FAIL', props<{message: string}>());

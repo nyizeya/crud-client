@@ -7,6 +7,7 @@ export interface AuthState {
     error: string | null;
     success: boolean;
     isAuthenticated: boolean;
+    message: string | null;
 }
 
 export const authInitialState: AuthState = {
@@ -14,5 +15,6 @@ export const authInitialState: AuthState = {
     data: [],
     error: null,
     success: false,
-    isAuthenticated: localStorage.getItem('token') ? true : false
+    isAuthenticated: localStorage.getItem('token') ? true : false,
+    message: null
 }

@@ -22,6 +22,7 @@ import { InstructorEffects } from './instructors/state/instructors.effects';
 import { InstructorDetailsComponent } from './instructors/instructor-details/instructor-details.component';
 import { AuthEffects } from './shared/auth/state/auth.effects';
 import { HttpInterceptorService } from './shared/auth/http-interceptor.service';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 
 @NgModule({
@@ -45,8 +46,7 @@ import { HttpInterceptorService } from './shared/auth/http-interceptor.service';
     FormsModule,
     StoreModule.forRoot(AppState),
     EffectsModule.forRoot([CourseEffects, InstructorEffects, AuthEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: true })
-  ],
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: true })  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

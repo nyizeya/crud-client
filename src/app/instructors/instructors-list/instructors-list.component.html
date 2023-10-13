@@ -1,5 +1,10 @@
 <div>
-    <h3>Instructors</h3>
+    <div class="d-flex gap-3 mb-3">
+        <h3>Instructors</h3>
+        <a routerLink="/auth/register" class="btn btn-outline-success">
+            Add New Instructor <i class="bi bi-plus-lg"></i>
+        </a>
+    </div>
 
     <div *ngIf="(errorMessage$ | async) as errorMessage">
         <div class="alert alert-danger">{{ errorMessage }}</div>
@@ -33,7 +38,7 @@
                         <td>{{ instructor.email }}</td>
                         <td>{{ instructor.phone }}</td>
                         <td class="d-flex gap-3">
-                            <a href="#" class="btn btn-outline-primary">
+                            <a [routerLink]="['/instructors/edit/', instructor.id]" class="btn btn-outline-primary">
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <a href="#" class="btn btn-outline-danger">

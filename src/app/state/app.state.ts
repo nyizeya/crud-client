@@ -5,5 +5,5 @@ import { loginReducer } from "../shared/auth/state/auth.reducer";
 export const AppState = {
     'course': courseReducer,
     'instructor': instructorReducer,
-    'login': loginReducer
+    'login': loginReducer,
 }

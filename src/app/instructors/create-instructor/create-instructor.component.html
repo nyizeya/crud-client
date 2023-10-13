@@ -1,1 +1,30 @@
-<p>create-instructor works!</p>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3>Update Instructor</h3>
+
+        <form [formGroup]="instructorUpdateForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" name="id">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input formControlName="name" 
+                    [value]="instructorUpdateForm.controls['name'].value"
+                    type="text" placeholder="Name" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input formControlName="email" 
+                [value]="instructorUpdateForm.controls['email'].value"
+                    type="email" placeholder="Email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input 
+                [value]="instructorUpdateForm.controls['phone'].value"
+                    formControlName="phone" type="text" placeholder="Phone" class="form-control">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

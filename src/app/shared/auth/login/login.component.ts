@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Token } from 'src/app/models/dto/token.model';
 import { AuthState } from '../state/auth.state';
-import { getError, getLoading, getSuccess, getToken } from '../state/auth.selectors';
+import { getError, getLoading, getMessage, getSuccess, getToken } from '../state/auth.selectors';
 import { Router } from '@angular/router';
 import { loginActionStart } from '../state/auth.actions';
 
@@ -21,10 +21,11 @@ export class LoginComponent implements OnInit {
   success$!: Observable<boolean>;
   error$!: Observable<string | null>;
   token$!: Observable<Token[]>;
+  message$!: Observable<string | null>;
 
   constructor(
     private _formBuilder: FormBuilder, 
-    private _store: Store<{'login': AuthState}>,
+    private _store: Store<AuthState>,
     private _router: Router
   ) {}
 
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
     })
 
     this.isLoading$ = this._store.select(getLoading);
+    this.message$ = this._store.select(getMessage);
     this.success$ = this._store.select(getSuccess);
     this.error$ = this._store.select(getError);
     this.token$ = this._store.select(getToken);
@@ -46,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.success$.subscribe({
       next: (val: boolean) => {
         if (val) {
-          this._router.navigateByUrl('/courses');
+          this._router.navigate(['/courses']);
         }
       }
     });

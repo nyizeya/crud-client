@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../auth/state/auth.state';
 import { logoutActionStart } from '../auth/state/auth.actions';
@@ -30,7 +29,7 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this._store.dispatch(logoutActionStart());
-    this._router.navigate(['/auth/login'])
+    this._router.navigate(['/auth/login']);
   }
 
 }

@@ -13,9 +13,6 @@
             <a class="nav-link" routerLinkActive="active" routerLink="/instructors">Instructors</a>
           </li>
           <li *ngIf="!isAuthenticated" class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/auth/register">Register</a>
-          </li>
-          <li *ngIf="!isAuthenticated" class="nav-item">
             <a class="nav-link" routerLinkActive="active" routerLink="/auth/login">Login</a>
           </li>
           <li *ngIf="isAuthenticated" class="nav-item">
