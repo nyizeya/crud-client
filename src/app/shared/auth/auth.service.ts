@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { baseUrl, authUrl } from 'src/app/enviroment/enviroment';
 import { Instructor } from 'src/app/models/dto/instructor.model';
 import { Response } from 'src/app/models/dto/response.model';
@@ -15,6 +15,7 @@ import { InstructorRegistrationRequest } from 'src/app/models/reqeust_dto/instru
 export class AuthService implements OnInit {
 
   authBaseUrl = `${baseUrl}/${authUrl}`;
+  currentUser$: BehaviorSubject<Instructor | null | undefined> = new BehaviorSubject<Instructor | null | undefined>(undefined);
 
   constructor(
     private _http: HttpClient) { }
@@ -40,6 +41,16 @@ export class AuthService implements OnInit {
 
   isTokenValid(): Observable<boolean> {
     return this._http.post<boolean>(`${this.authBaseUrl}/check-token`, {});
+  }
+
+  getCurrentUser(token: string): Observable<Instructor | null> {
+    return this._http.get<Instructor>(`${this.authBaseUrl}/current-user`, {
+      params: new HttpParams().set('token', token)
+    });
+  }
+
+  setCurrentUser(instructor: Instructor | null): void {
+    this.currentUser$.next(instructor);
   }
 
 }

@@ -16,11 +16,16 @@ import {
 } from "./instructors.actions";
 import { HttpErrorResponse } from "@angular/common/http";
 import {InstructorUpdateRequest} from "../../models/reqeust_dto/instructor/instructor.update.model";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class InstructorEffects {
 
-    constructor(private _actions: Actions, private _instructorService: InstructorService) {}
+    constructor(
+      private _actions: Actions, 
+      private _instructorService: InstructorService,
+      private _router: Router
+    ) {}
 
     instructors$ = createEffect(() => {
         console.log('inside instructors effect()');
@@ -78,6 +83,8 @@ export class InstructorEffects {
           return this._instructorService.editInstructor(action).pipe(
             map((data: Response<Instructor>) => {
               console.log(data);
+              
+              this._router.navigate(['/instructors']);
               return editInstructorSuccess(data);
             }),
             catchError((res: Response<Instructor> | HttpErrorResponse) => {
@@ -85,9 +92,9 @@ export class InstructorEffects {
               let message = '';
               if (res instanceof HttpErrorResponse) {
                 message = res.error.error;
+              } else {
+                message = res.error!;
               }
-
-              message = res.error;
 
               return of(editInstructorFail({message}));
             })

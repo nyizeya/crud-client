@@ -9,6 +9,7 @@ import { CourseState } from '../state/course.state';
 import { getAuthenticated, getSuccess } from 'src/app/shared/auth/state/auth.selectors';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import {Router} from "@angular/router";
+import { Instructor } from 'src/app/models/dto/instructor.model';
 
 @Component({
   selector: 'app-courses-list',
@@ -25,6 +26,7 @@ export class CoursesListComponent implements OnInit {
   isLoading$?: Observable<boolean>;
   errorMessage$?: Observable<string | null>;
   courses$?: Observable<Course[]>;
+  currentUser: Instructor | null | undefined = undefined;
 
   isAuthenticated = false;
 
@@ -45,6 +47,12 @@ export class CoursesListComponent implements OnInit {
       }
     })
 
+    this._authService.currentUser$.subscribe({
+      next: (user: Instructor | null | undefined) => {
+        this.currentUser = user;
+      }
+    })
+
     this._loadCourses();
   }
 
@@ -59,7 +67,7 @@ export class CoursesListComponent implements OnInit {
 
   deleteCourse(id: number) {
     this._store.dispatch(courseDeleteStart({id}));
-    this._router.navigate(['/courses']);
+    this._loadCourses();
   }
 
 }

@@ -4,6 +4,7 @@ import { Response } from "src/app/models/dto/response.model";
 import { Token } from "src/app/models/dto/token.model";
 import { LoginRequest } from "src/app/models/reqeust_dto/auth/login.request";
 import { InstructorRegistrationRequest } from "src/app/models/reqeust_dto/instructor/instructor.registration.model";
+import { InstructorUpdateRequest } from "src/app/models/reqeust_dto/instructor/instructor.update.model";
 
 // login actions
 export const loginActionStart = createAction('[Auth Page] login action start', props<LoginRequest>());
@@ -24,3 +25,8 @@ export const checkTokenActionFail = createAction('[Auth Page] check token validi
 export const registerActionStart = createAction('[Auth Page] login action start', props<InstructorRegistrationRequest>());
 export const registerActionSuccess = createAction('[Auth Page] login action success', props<Response<Instructor>>());
 export const registerActionFail = createAction('[Auth Page] login action fail', props<{message: string}>());
+
+// get current user
+export const getCurrentUserStart = createAction('[Auth Page] get current user start', props<{token: string}>());
+export const getCurrrentUserSuccess = createAction('[Auth Page] get current user success', props<{user: Instructor | null}>());
+export const getCurrrentUserFail = createAction('[Auth Page] get current user fail', props<{message: string}>());

@@ -13,7 +13,8 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isLoading: true,
-            success: false
+            success: false,
+            error: null
         }
     }),
     on(loginActions.loginActionSuccess, (state: AuthState, action: Response<Token>) => {
@@ -27,7 +28,8 @@ const _loginReducer = createReducer(
             isLoading: false,
             data: action.data!,
             success: true,
-            isAuthenticated: true
+            isAuthenticated: true,
+            error: null
         }
     }),
     on(loginActions.loginActionFail, (state: AuthState, action: {message: string}) => {
@@ -45,7 +47,8 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isLoading: true,
-            isAuthenticated: false
+            isAuthenticated: false,
+            error: null
         }
     }),
     on(loginActions.logoutActionSuccess, (state: AuthState) => {
@@ -54,7 +57,9 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: false,
+            error: null,
+            currentUser: null
         }
     }),
     on(loginActions.logoutActionFail, (state: AuthState) => {
@@ -70,13 +75,15 @@ const _loginReducer = createReducer(
         return {
             ...state,
             isLoading: true,
+            error: null,
         }
     }),
     on(loginActions.checkTokenActionSuccess, (state: AuthState, action: {val: boolean}) => {
         return {
             ...state,
             isLoading: false,
-            isAuthenticated: action.val
+            isAuthenticated: action.val,
+            error: null
         }
     }),
     on(loginActions.checkTokenActionFail, (state: AuthState, action: {message: string}) => {
@@ -89,21 +96,52 @@ const _loginReducer = createReducer(
     on(loginActions.registerActionStart, (state: AuthState, action: InstructorRegistrationRequest) => {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: null,
+        success: false
       }
     }),
     on(loginActions.registerActionSuccess, (state: AuthState, action: Response<Instructor>) => {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: null,
+        success: true
       }
     }),
     on(loginActions.registerActionFail, (state: AuthState, action: {message: string}) => {
       return {
         ...state,
         isLoading: false,
-        error: action.message
+        error: action.message,
+        success: false
       }
+    }),
+    on(loginActions.getCurrentUserStart, (state: AuthState, action: {token: string}) => {
+        return {
+            ...state,
+            isLoading: true,
+            error: null,
+            success: false
+        }
+    }),
+    on(loginActions.getCurrrentUserSuccess, (state: AuthState, action: {user: Instructor | null}) => {
+        return {
+            ...state,
+            isLoading: true,
+            error: null,
+            success: true,
+            currentUser: action.user
+        }
+    }),
+    on(loginActions.getCurrrentUserFail, (state: AuthState, action: {message: string}) => {
+        return {
+            ...state,
+            isLoading: true,
+            error: action.message,
+            success: true,
+            currentUser: null
+        }
     })
 )
 

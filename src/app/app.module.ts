@@ -12,7 +12,6 @@ import { InstructorsListComponent } from './instructors/instructors-list/instruc
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
 import { StoreModule } from '@ngrx/store';
-import { CreateInstructorComponent } from './instructors/create-instructor/create-instructor.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppState } from './state/app.state';
@@ -22,6 +21,7 @@ import { InstructorEffects } from './instructors/state/instructors.effects';
 import { InstructorDetailsComponent } from './instructors/instructor-details/instructor-details.component';
 import { AuthEffects } from './shared/auth/state/auth.effects';
 import { HttpInterceptorService } from './shared/auth/http-interceptor.service';
+import { UpdateInstructorComponent } from './instructors/update-instructor/update-instructor.component';
 
 
 @NgModule({
@@ -31,9 +31,9 @@ import { HttpInterceptorService } from './shared/auth/http-interceptor.service';
     CoursesListComponent,
     InstructorsListComponent,
     CreateCourseComponent,
-    CreateInstructorComponent,
     UpdateCourseComponent,
     InstructorDetailsComponent,
+    UpdateInstructorComponent,
   ],
   imports: [
     BrowserModule,

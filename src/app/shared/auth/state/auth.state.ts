@@ -1,3 +1,4 @@
+import { Instructor } from "src/app/models/dto/instructor.model";
 import { Response } from "src/app/models/dto/response.model";
 import { Token } from "src/app/models/dto/token.model";
 
@@ -7,6 +8,7 @@ export interface AuthState {
     error: string | null;
     success: boolean;
     isAuthenticated: boolean;
+    currentUser: Instructor | null | undefined
 }
 
 export const authInitialState: AuthState = {
@@ -14,5 +16,6 @@ export const authInitialState: AuthState = {
     data: [],
     error: null,
     success: false,
-    isAuthenticated: localStorage.getItem('token') ? true : false
+    isAuthenticated: localStorage.getItem('token') ? true : false,
+    currentUser: null
 }

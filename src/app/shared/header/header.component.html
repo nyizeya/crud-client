@@ -18,8 +18,11 @@
           <li *ngIf="!isAuthenticated" class="nav-item">
             <a class="nav-link" routerLinkActive="active" routerLink="/auth/login">Login</a>
           </li>
+          <li *ngIf="currentUser">
+            <a class="nav-link cursor" [routerLink]="['/instructors/update-profile']">Update Profile</a>
+          </li>
           <li *ngIf="isAuthenticated" class="nav-item">
-            <a class="nav-link logout" (click)="onLogout()" >Logout</a>
+            <a class="nav-link cursor" (click)="onLogout()" >Logout</a>
           </li>
         </ul>
       </div>

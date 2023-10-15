@@ -10,14 +10,16 @@ const _instructorReducer = createReducer(
     on(instructorActions.getAllInstructorStart, (state) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(instructorActions.getAllInstructorSuccess, (state: InstructorState, action: Response<Instructor>) => {
         return {
             ...state,
             data: action.data!,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     }),
     on(instructorActions.getAllInstructorFail, (state: InstructorState, action: {message: string | null}) => {
@@ -30,14 +32,16 @@ const _instructorReducer = createReducer(
     on(instructorActions.getInstructorByIdStart, (state: InstructorState, action: {id: number}) => {
         return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }),
     on(instructorActions.getInstructorByIdSuccess, (state: InstructorState, action: Response<Instructor>) => {
         return {
             ...state,
             isLoading: false,
-            data: action.data!
+            data: action.data!,
+            error: null
         }
     }),
     on(instructorActions.getInstructorByIdFail, (state: InstructorState, action: {message: string}) => {
@@ -50,13 +54,15 @@ const _instructorReducer = createReducer(
     on(instructorActions.editInstructorStart, (state: InstructorState, action: InstructorUpdateRequest) => {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: null
       }
     }),
     on(instructorActions.editInstructorSuccess, (state: InstructorState, action: Response<Instructor>) => {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: null
       }
     }),
     on(instructorActions.editInstructorFail, (state: InstructorState, action: {message: string}) => {

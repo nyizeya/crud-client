@@ -42,14 +42,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this._store.dispatch(loginActionStart(this.loginForm.getRawValue()));
-
-    this.success$.subscribe({
-      next: (val: boolean) => {
-        if (val) {
-          this._router.navigateByUrl('/courses');
-        }
-      }
-    });
   }
 
   getUsernameErrorMessage(control: AbstractControl): string | void {

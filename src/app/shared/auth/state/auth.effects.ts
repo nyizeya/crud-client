@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../auth.service";
 import * as loginaActions from "./auth.actions";
-import { catchError, map, mergeMap, of, tap } from "rxjs";
+import { catchError, filter, map, mergeMap, of, tap } from "rxjs";
 import { Response } from "src/app/models/dto/response.model";
 import { Token } from "src/app/models/dto/token.model";
 import { LoginRequest } from "src/app/models/reqeust_dto/auth/login.request";
@@ -27,7 +27,11 @@ export class AuthEffects {
             mergeMap((action: LoginRequest) => {
                 return this._authService.login(action).pipe(
                     map((res: Response<Token>) => {
-                        this._router.navigateByUrl('/')
+                        this._authService.getCurrentUser(res.data![0].accessToken.token).pipe(
+                            map(user => this._authService.setCurrentUser(user))
+                        );
+
+                        this._router.navigateByUrl('/courses')
                         return loginaActions.loginActionSuccess(res);
                     }),
                     catchError((res: Response<Token> | HttpErrorResponse) => {
@@ -84,6 +88,24 @@ export class AuthEffects {
         )
     })
 
+    getCurrentUser$ = createEffect(() => {
+        return this._actions.pipe(
+            ofType(loginaActions.getCurrentUserStart),
+            mergeMap((action: {token: string}) => {
+                return this._authService.getCurrentUser(action.token).pipe(
+                    map((res: Instructor | null) => {
+                        console.log('current user ', res);
+                        return loginaActions.getCurrrentUserSuccess({user: res});
+                    }),
+                    catchError((res: HttpErrorResponse) => {
+                        console.log('current user error ', res);
+                        return of(loginaActions.getCurrrentUserFail({message: res.error.error}))
+                    })
+                )
+            })
+        )
+    })
+
     logout$ = createEffect(() => {
         return this._actions.pipe(
             ofType(loginaActions.logoutActionStart),
@@ -91,6 +113,7 @@ export class AuthEffects {
                 return this._authService.logout().pipe(
                     map(() => {
                         this._router.navigate(['/auth/login'])
+                        this._authService.currentUser$.next(null);
                         return loginaActions.logoutActionSuccess();
                     }),
                     catchError(err => {

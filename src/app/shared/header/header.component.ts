@@ -5,6 +5,7 @@ import { AuthState } from '../auth/state/auth.state';
 import { logoutActionStart } from '../auth/state/auth.actions';
 import { Router } from '@angular/router';
 import { getAuthenticated } from '../auth/state/auth.selectors';
+import { Instructor } from 'src/app/models/dto/instructor.model';
 
 @Component({
   selector: 'app-header',
@@ -14,16 +15,26 @@ import { getAuthenticated } from '../auth/state/auth.selectors';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated = false;
+  currentUser: Instructor | null | undefined
 
   constructor(
     private _store: Store<{'login': AuthState}>,
-    private _router: Router
+    private _router: Router,
+    private _authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this._store.select(getAuthenticated).subscribe({
       next: (val: boolean) => {
         this.isAuthenticated = val;
+      }
+    });
+
+    this._authService.currentUser$.subscribe({
+      next: (user: Instructor | null | undefined) => {
+        console.log('current user inside header component ', user);
+        
+        this.currentUser = user;
       }
     })
   }

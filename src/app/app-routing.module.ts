@@ -7,13 +7,20 @@ import { LoginComponent } from './shared/auth/login/login.component';
 import { authGuard } from './shared/auth/auth.guard';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
 import { RegisterComponent } from './shared/auth/register/register.component';
+import { UpdateInstructorComponent } from './instructors/update-instructor/update-instructor.component';
 
 const routes: Routes = [
+  {
+    path: 'instructors/update-profile',
+    component: UpdateInstructorComponent,
+    canActivate: [authGuard]
+  },
   {
     path: 'instructors/:id',
     component: InstructorDetailsComponent,
     canActivate: [authGuard]
   },
+  
   {
     path: 'instructors',
     component:InstructorsListComponent,

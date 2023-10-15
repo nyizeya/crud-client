@@ -8,3 +8,4 @@ export const getLoading = createSelector(authSelector, (state: AuthState) => sta
 export const getError = createSelector(authSelector, (state: AuthState) => state.error);
 export const getSuccess = createSelector(authSelector, (state: AuthState) => state.success);
 export const getAuthenticated = createSelector(authSelector, (state: AuthState) => state.isAuthenticated);
+export const getCurrentUser = createSelector(authSelector, (state: AuthState) => state.currentUser);

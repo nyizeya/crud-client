@@ -40,14 +40,19 @@
                         <td>
                             <p>{{ course.instructorName }}</p>
                         </td>
-                        <td *ngIf="isAuthenticated" class="d-flex gap-3">
+                        <td *ngIf="isAuthenticated && (currentUser?.id === course.instructorId); else elseBlock;" class="d-flex gap-3">
                             <a [routerLink]="['/courses/', course.id]" class="btn btn-outline-primary">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" (click)="deleteCourse(course.id)" class="btn btn-outline-danger">
+                            <a (click)="deleteCourse(course.id)" class="btn btn-outline-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
+                        <ng-template #elseBlock>
+                            <td>
+                                <span class="text-danger text-md">You cannot not modify</span>
+                            </td>
+                        </ng-template>
                     </tr>
                 </tbody>
             </table>
